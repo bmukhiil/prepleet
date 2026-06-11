@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prepleet
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Prepleet is an AI interview-practice product for job seekers. The app focuses on helping users rehearse technical and behavioral interviews through guided prompts, simulated responses, and immediate feedback loops.
+
+## Stack
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Monaco Editor
+- Radix UI primitives
+
+## What I Built
+
+- A landing experience for an AI-powered interview-prep product
+- Messaging around technical and behavioral interview practice
+- Simulated assistant UX for coding and spoken-answer workflows
+- Modern frontend structure with reusable UI primitives and animation
+
+## Why I Built It
+
+Interview prep tools are often either generic question banks or thin wrappers around chat. This project explores a more productized approach: a single tool focused on realistic practice, guided feedback, and higher confidence before the actual interview.
+
+## Outcome
+
+The repo is a strong frontend product prototype and a useful portfolio example for AI-adjacent UX, design execution, and building a focused landing experience around a clear user problem.
+
+## Run Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

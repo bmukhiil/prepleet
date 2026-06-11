@@ -1,26 +1,233 @@
 @import "tailwindcss";
 
+/* Ensure these variables match your Tailwind config if you're mapping them */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Light mode - original palette (unchanged) */
+  --background: oklch(0.99 0.005 100); /* Off-white */
+  --background-rgb: 254, 254, 254;
+  --foreground: oklch(0.2 0.01 260); /* Cool gray */
+
+  --card: oklch(0.99 0.005 100); /* Matches background */
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.31 0.06 150); /* Forest green */
+  --primary-foreground: oklch(0.98 0 0); /* White */
+
+  --secondary: oklch(0.55 0.08 115); /* Olive green */
+  --secondary-foreground: var(--primary-foreground);
+
+  --muted: oklch(0.94 0.025 115); /* Light sage */
+  --muted-foreground: oklch(0.4 0.02 260); /* Muted cool gray */
+
+  --accent: oklch(0.78 0.05 130); /* Pale green */
+  --accent-foreground: oklch(0.2 0 0); /* Near-black */
+
+  --destructive: oklch(0.6 0.2 27); /* Strong red */
+  --border: oklch(0.85 0.01 115); /* Soft olive-gray */
+  --input: var(--border);
+  --ring: oklch(0.78 0.08 130); /* Accent ring */
+
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /* --- Glow Variables --- */
+  --glow-color: 85 70% 75%; /* Default (light mode) cyan-ish glow HSL - unchanged */
+  --glow-spread: 10px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* Dark mode - subtle green-olive tones with lighter text */
+  --background: oklch(0.15 0.01 130); /* Dark green-gray with slight olive undertone */
+  --foreground: oklch(0.97 0.01 120); /* Near white with subtle olive hint */
+
+  --card: oklch(0.18 0.015 130); /* Slightly lighter than background */
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.85 0.05 120); /* Much lighter olive-green - ENHANCED */
+  --primary-foreground: oklch(0.15 0.01 130); /* Dark background color */
+
+  --secondary: oklch(0.75 0.06 125); /* Lighter olive tone - ENHANCED */
+  --secondary-foreground: oklch(0.15 0.01 130);
+
+  --muted: oklch(0.25 0.02 130); /* Muted dark green */
+  --muted-foreground: oklch(0.90 0.03 125); /* Very light olive-gray - ENHANCED */
+
+  --accent: oklch(0.65 0.07 130); /* Lighter olive accent - ENHANCED */
+  --accent-foreground: oklch(0.15 0.01 130);
+
+  --border: oklch(0.32 0.02 130);
+  --input: var(--border);
+  --ring: oklch(0.65 0.06 125); /* Lighter ring - ENHANCED */
+
+  --sidebar: oklch(0.16 0.015 130); /* Darker green-gray */
+  --sidebar-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /* --- Dark Mode Glow Variables --- */
+  --glow-color: 110 40% 60%; /* Subtle light olive glow HSL */
+  --glow-spread: 15px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- Base styles (existing + animation utility) --- */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  *:focus-visible {
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Lighter, more subtle gradient text for dark mode */
+  .dark .gradient-text {
+    background-image: linear-gradient(to right, oklch(0.88 0.04 130), oklch(0.82 0.07 125));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  /* Enhanced code editor text in dark mode */
+  .dark pre, .dark code {
+    color: oklch(0.88 0.04 130); /* Light olive green for code text */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- Component styles (existing + glassmorphism, glow, background patterns, orbs) --- */
+@layer components {
+  .gradient-text {
+    background-image: linear-gradient(to right, var(--primary), var(--secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .light-grid-bg {
+    /* Existing light mode grid - unchanged */
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23606C38' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dark .light-grid-bg {
+    /* Updated dark mode grid with greener pattern */
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238CAA88' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* --- Glassmorphism Effects --- */
+  .glass {
+    @apply backdrop-blur-xl bg-white/20 border border-white/30 shadow-lg;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.12);
+  }
+
+  .dark .glass {
+    @apply backdrop-blur-xl bg-black/20 border border-white/10;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-card {
+    @apply backdrop-blur-2xl bg-white/40 border border-white/40 shadow-lg;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.12);
+  }
+
+  .dark .glass-card {
+    @apply backdrop-blur-2xl bg-black/30 border border-white/10;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-input {
+    @apply backdrop-blur-sm bg-white/70 border border-white/30 shadow-sm;
+  }
+
+  .dark .glass-input {
+    @apply backdrop-blur-sm bg-black/20 border border-white/5;
+  }
+
+  /* --- Glow Effects --- */
+  .glow {
+    box-shadow: 0 0 var(--glow-spread) hsla(var(--glow-color) / 30%);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px hsla(var(--glow-color) / 50%);
+  }
+
+  .glow-border {
+    box-shadow: 0 0 15px hsla(var(--glow-color) / 20%),
+                inset 0 0 15px hsla(var(--glow-color) / 20%);
+  }
+
+  /* --- Clean, No-Glow Heading Styles for Dark Mode --- */
+  /* Removed text shadows for a cleaner look */
+
+  /* --- Light Orb Effect --- */
+  .light-orb {
+    @apply absolute rounded-full blur-3xl;
+    background: radial-gradient(circle, hsla(var(--glow-color) / 60%) 0%, hsla(var(--glow-color) / 0%) 70%);
+  }
+
+  /* --- Fade-in Animation Utility --- */
+   .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+}
+
+/* --- Utility styles --- */
+@layer utilities {
+  /* Add a scrollbar hide utility */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* --- Keyframes --- */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

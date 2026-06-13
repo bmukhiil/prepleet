@@ -1,33 +1,41 @@
 # Prepleet
 
-## Overview
+## What This Is
 
-Prepleet is an AI interview-practice product for job seekers. The app focuses on helping users rehearse technical and behavioral interviews through guided prompts, simulated responses, and immediate feedback loops.
+Prepleet is an interview-practice frontend built around simulated technical, behavioral, and systems interview flows. The repo includes a marketing landing page, a practice-mode selector, a problem list, and a full mock-interview screen with code, chat, and resizable panels.
 
-## Stack
+## What Works
 
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Monaco Editor
-- Radix UI primitives
+- Landing page with interview-prep messaging and a split-screen product mock
+- Practice-mode menu for coding, behavioral, systems, and full mock flows
+- Full mock interview screen with:
+  - Monaco code editor
+  - problem statement panel
+  - assistant chat panel
+  - resizable horizontal and vertical splits
+  - microphone / TTS-oriented UI controls
+- Problem list view with interview-question metadata
 
-## What I Built
+## How It's Built
 
-- A landing experience for an AI-powered interview-prep product
-- Messaging around technical and behavioral interview practice
-- Simulated assistant UX for coding and spoken-answer workflows
-- Modern frontend structure with reusable UI primitives and animation
+- Next.js app-router frontend under `src/app`
+- Reusable UI primitives under `src/components/ui`
+- Framer Motion and custom layout behavior inside the full mock screen
+- Monaco Editor integration for coding-interview practice
+- Theme support and shared utilities under `src/lib`
 
-## Why I Built It
+## Technical Notes
 
-Interview prep tools are often either generic question banks or thin wrappers around chat. This project explores a more productized approach: a single tool focused on realistic practice, guided feedback, and higher confidence before the actual interview.
+- The strongest implemented surface is the full mock screen, which combines a problem panel, code editor, and interviewer chat into one workspace instead of treating practice as a plain chat app.
+- The repo is frontend-heavy by design. The interview UI and interaction model are the main artifact here, with backend integration represented by a local interview API call from the full mock screen.
+- The landing page is not the whole project; the app includes multiple navigable practice surfaces inside `src/app`.
 
-## Outcome
+## Proof of Work
 
-The repo is a strong frontend product prototype and a useful portfolio example for AI-adjacent UX, design execution, and building a focused landing experience around a clear user problem.
+- Landing page in [src/app/page.tsx](./src/app/page.tsx)
+- Practice menu in [src/app/practice/page.tsx](./src/app/practice/page.tsx)
+- Full mock interview workspace in [src/app/practice/full/page.tsx](./src/app/practice/full/page.tsx)
+- Problem list in [src/app/problems/page.tsx](./src/app/problems/page.tsx)
 
 ## Run Locally
 

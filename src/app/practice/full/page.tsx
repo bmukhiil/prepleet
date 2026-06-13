@@ -1,17 +1,14 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   Mic,
   MicOff,
   Send,
-  MessageSquare,
   Code2,
   Loader2,
   FileText,
@@ -27,6 +24,12 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+}
+
+interface Problem {
+  title: string;
+  description: string;
+  hints: string[];
 }
 
 const INITIAL_CODE = `# Implement binary search to find a target value in a sorted array
@@ -87,14 +90,8 @@ const WELCOME_MESSAGES: Message[] = [
   },
 ];
 
-const messageVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
-};
-
 // Problem Panel Component
-const ProblemPanel = ({ problem }) => (
+const ProblemPanel = ({ problem }: { problem: Problem }) => (
   <div className="flex flex-col h-full">
     {/* Consistent Header Style */}
     <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/20 backdrop-blur-sm">
@@ -140,7 +137,7 @@ const InterviewApp = () => {
   const [input, setInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [currentProblem] = useState(INITIAL_PROBLEM);
   const [topPanelHeight, setTopPanelHeight] = useState(75); // Adjusted for better default proportions
   const [assistantPanelHeight, setAssistantPanelHeight] = useState(25); // Adjusted for better default proportions
@@ -151,8 +148,8 @@ const InterviewApp = () => {
   const [problemPanelWidth, setProblemPanelWidth] = useState(50); // Initial width percentage for Problem Panel
   const [isHorizontalDragging, setIsHorizontalDragging] = useState(false);
   const [isVerticalDragging, setIsVerticalDragging] = useState(false);
-  const horizontalContainerRef = useRef(null); // Ref for the container holding the two panels
-  const verticalContainerRef = useRef(null); // Ref for the vertical container
+  const horizontalContainerRef = useRef<HTMLDivElement | null>(null); // Ref for the container holding the two panels
+  const verticalContainerRef = useRef<HTMLElement | null>(null); // Ref for the vertical container
 
   // Handle window resize to adjust layout (vertical split)
   useEffect(() => {
@@ -179,7 +176,7 @@ const InterviewApp = () => {
   }, []);
 
   const onHorizontalDragging = useCallback(
-    (e) => {
+    (e: MouseEvent) => {
       if (!isHorizontalDragging || !horizontalContainerRef.current) return;
 
       const container = horizontalContainerRef.current;
@@ -214,7 +211,7 @@ const InterviewApp = () => {
   }, []);
 
   const onVerticalDragging = useCallback(
-    (e) => {
+    (e: MouseEvent) => {
       if (!isVerticalDragging || !verticalContainerRef.current) return;
 
       const container = verticalContainerRef.current;
@@ -326,11 +323,11 @@ const InterviewApp = () => {
   });
 }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const sendMessage = useCallback((text, role = "user") => {
+  const sendMessage = useCallback((text: string, role: Message["role"] = "user") => {
     if (!text.trim()) return;
     const newMessage = {
       id: crypto.randomUUID(),
@@ -431,11 +428,11 @@ const InterviewApp = () => {
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
-    const userMessage = sendMessage(input, "user");
+    sendMessage(input, "user");
     setIsProcessing(true);
     try {
       const assistantReply = await sendToInterviewAPI("mohith123", input); // use a session ID in prod
-      const newAssistantMessage = {
+      const newAssistantMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
         content: assistantReply,
@@ -453,7 +450,7 @@ const InterviewApp = () => {
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -469,7 +466,7 @@ const InterviewApp = () => {
     }
   };
 
-  const { theme, resolvedTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <main

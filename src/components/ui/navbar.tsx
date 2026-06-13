@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ui/themeToggle";
@@ -29,9 +30,9 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
-          <a href="/" className="text-xl font-bold text-foreground glow-text">
+          <Link href="/" className="text-xl font-bold text-foreground glow-text">
             Prep<span className="text-olive dark:text-olive-light">leet</span>
-          </a>
+          </Link>
         </div>
 
         {/* --- Desktop Navigation --- */}

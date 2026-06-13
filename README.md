@@ -2,7 +2,17 @@
 
 ## What This Is
 
-Prepleet is an interview-practice frontend built around simulated technical, behavioral, and systems interview flows. The repo includes a marketing landing page, a practice-mode selector, a problem list, and a full mock-interview screen with code, chat, and resizable panels.
+Prepleet is an interview-practice frontend built around simulated technical, behavioral, systems, and full mock interview flows. The repo includes a marketing landing page, a practice-mode selector, a question bank, and a full mock-interview screen with code, chat, and resizable panels.
+
+## Preview
+
+![Prepleet landing page](./docs/assets/prepleet-hero.png)
+
+![Prepleet practice modes](./docs/assets/prepleet-practice-modes.png)
+
+![Prepleet question bank](./docs/assets/prepleet-problems.png)
+
+![Prepleet full mock interview workspace](./docs/assets/prepleet-full-mock.png)
 
 ## What Works
 
@@ -13,8 +23,9 @@ Prepleet is an interview-practice frontend built around simulated technical, beh
   - problem statement panel
   - assistant chat panel
   - resizable horizontal and vertical splits
-  - microphone / TTS-oriented UI controls
-- Problem list view with interview-question metadata
+  - microphone and text-to-speech UI controls
+- Question bank view with interview-question metadata
+- Theme support across the main frontend surfaces
 
 ## How It's Built
 
@@ -22,7 +33,7 @@ Prepleet is an interview-practice frontend built around simulated technical, beh
 - Reusable UI primitives under `src/components/ui`
 - Framer Motion and custom layout behavior inside the full mock screen
 - Monaco Editor integration for coding-interview practice
-- Theme support and shared utilities under `src/lib`
+- Theme and shared utilities under `src/lib`
 
 ## Technical Notes
 
@@ -35,7 +46,8 @@ Prepleet is an interview-practice frontend built around simulated technical, beh
 - Landing page in [src/app/page.tsx](./src/app/page.tsx)
 - Practice menu in [src/app/practice/page.tsx](./src/app/practice/page.tsx)
 - Full mock interview workspace in [src/app/practice/full/page.tsx](./src/app/practice/full/page.tsx)
-- Problem list in [src/app/problems/page.tsx](./src/app/problems/page.tsx)
+- Question bank in [src/app/problems/page.tsx](./src/app/problems/page.tsx)
+- Screenshots checked into [docs/assets](./docs/assets)
 
 ## Run Locally
 
@@ -43,3 +55,9 @@ Prepleet is an interview-practice frontend built around simulated technical, beh
 npm install
 npm run dev
 ```
+
+Then open `http://localhost:3000`.
+
+## Backend Note
+
+The full mock interview page calls a local interview API at `POST http://localhost:5000/interview`. That boundary is isolated to the assistant-response flow, so the main frontend surfaces can still be reviewed without standing up the backend.

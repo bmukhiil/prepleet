@@ -1,32 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
-  ArrowRight,
   Check,
   Users,
   MessageSquare,
   Book,
-  Mail,
-  Phone,
-  Linkedin,
-  Twitter,
-  Instagram,
-  Menu,
-  X,
-  Star,
-  Mic,
   Code,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import ThemeToggle from "@/components/ui/themeToggle";
-import styles from "./page.module.css";
 
 const HomePage = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
   const fullCode = `def binary_search(arr, target):
     left = 0
     right = len(arr) - 1
@@ -44,12 +29,6 @@ const HomePage = () => {
     return -1  # Target not found`;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -65,7 +44,6 @@ const HomePage = () => {
     elements.forEach((el) => observer.observe(el));
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       elements.forEach((el) => observer.unobserve(el));
     };
   }, []);
@@ -189,7 +167,7 @@ const HomePage = () => {
                     <div className="space-y-4 h-full overflow-y-auto scrollbar-none">
                       <div className="p-3 rounded-lg border shadow-sm bg-background/60 border-border">
                         <p className="text-sm">
-                          Alright, let's discuss binary search. What can you
+                          Alright, let&apos;s discuss binary search. What can you
                           tell me about the time complexity of this
                           implementation?
                         </p>
@@ -385,7 +363,7 @@ const HomePage = () => {
                               className="text-sm"
                               style={{ color: "var(--foreground)" }}
                             >
-                              I would first assess what's causing the delay and
+                              I would first assess what&apos;s causing the delay and
                               communicate transparently with stakeholders...
                             </p>
                           </div>
